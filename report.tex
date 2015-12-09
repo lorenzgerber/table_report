@@ -1,0 +1,160 @@
+\documentclass[a4paper,11pt,twoside]{article}
+%\documentclass[a4paper,11pt,twoside,se]{article}
+
+\usepackage{UmUStudentReport}
+\usepackage{verbatim}   % Multi-line comments using \begin{comment}
+\usepackage{courier}    % Nicer fonts are used. (not necessary)
+\usepackage{pslatex}    % Also nicer fonts. (not necessary)
+%\usepackage{lmodern}   % Optional fonts. (not necessary)
+%\usepackage{tabularx}
+%\usepackage{microtype} % Provides some typographic improvements over default settings
+%\usepackage{placeins}  % For aligning images with \FloatBarrier
+%\usepackage{booktabs}  % For nice-looking tables
+%\usepackage{titlesec}  % More granular control of sections.
+
+% DOCUMENT INFO
+% =============
+\department{Institution för Datavetenskap}
+\coursename{Datavetenskapens byggstenar 7.5 p}
+\coursecode{DV160HT15}
+\title{OU3 Tables}
+\author{Lorenz Gerber  ({\tt{dv15lgr@cs.umu.se}})}
+\date{2015-12-17}
+%\revisiondate{2015-09-15}
+\instructor{Lena Kallin Westin / Johan Eliasson}
+
+
+% DOCUMENT SETTINGS
+% =================
+\bibliographystyle{plain}
+%\bibliographystyle{ieee}
+\pagestyle{fancy}
+\raggedbottom
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+%\graphicspath{{images/}}   %Path for images
+
+% DEFINES
+% =======
+%\newcommand{\mycommand}{<latex code>}
+
+
+% DOCUMENT
+% ========
+\begin{document}
+\maketitle
+
+\tableofcontents
+\newpage
+
+\section{Introduction} 
+Introduction 1/4 to 1 page. Describe with own words the aim and what
+was done. Include also a description of the abstract data type
+`table', and or reference \cite[po. 117 -- 132]{janlert2000}.
+
+\section{Material and Methods} 
+Describe the construction of the datatypes. 1/2 to 2 pages. This
+should further include:
+\begin{itemize}
+\item how the implementations handle the case taking away non existing
+  key
+\item how the implementations handle double keys
+\item proposing changes in the interface
+\item why can we not use key as index in ArrayTable
+\end{itemize}
+
+
+\section{Results}
+Present the results of the testing (1-2 pages, graphs/tables not
+included). Include the testparameters with the presentation of the
+results.
+
+\section{Discussion}
+Analysis of the results (1-3 pages). 
+\subsection{Unit Tests - Interpretation}
+\begin{enumerate}
+\item Test 1: Fails if \texttt{empty} does not work. If
+  \texttt{isEmpty} was hard coded to \texttt{TRUE}, this test could
+  still be passed.
+
+\item Test 2: If this test passes, we know that \texttt{isEmpty}
+  works, hence we know also that \texttt{enqueue} can add a value to
+  the queue. If it fails, either \texttt{isEmtpy} was hardcoded or
+  \texttt{enqueue} did not add a value to the queue.
+
+\item Test 3: If test 3 fails, there is something wrong with
+  \texttt{dequeue}. If test 3 passes, we know that both
+  \texttt{enqueue} and \texttt{dequeue} can add respectively remove a
+  value from the queue. But we don't know anything whether they act on
+  the correct end of the queue.
+
+\item Test 4: If it fails, we know that either \texttt{enqueue} or
+  \texttt{dequeue} act on the wrong end of the queue. However, if both
+  act on the wront end, the test will still pass.
+
+\item Test 5: when it fails, \texttt{front} can not read correctly a
+  value from the queue. If it passes, we still don't know if it reads from the
+  correct end.
+
+\item Test 6: If it passes, we know that \texttt{front} reads
+  from the correct end in relation to \texttt{enqueue} and
+  \texttt{dequeue}. Hence also the latter two act on the correct end.
+\end{enumerate}
+
+Remark: In the end we know that \texttt{enqueue}, \texttt{dequeue} and
+\texttt{front} work correctly in relation to each other. But the
+implementation could still be reversed to how it was expected. As
+the queue is implemented with a list, this poses no problem and the
+datatype will still work as expected. However, when the queue would be
+implemented on top of a static datatype such as array, this could mean
+trouble. Adding a test 8, could check the absolute correct acting ends
+of all operations. This was not implemented in the current unit tests.
+ 
+\subsection{Dynamic Memory Handling}
+The given implementation of queues with 2-cell uses dynamic memory
+allocation in C. Memory handling functions are implemented. Therefore,
+when comparing the outcome of two independent queues, two sets of data
+have to be prepared. Operations such as \texttt{dequeue} will
+deallocate dynamic memory hence the data will not be available for the
+other queue operation. This was the case for Axiome 4 and 6.
+
+\subsection{Application of Unit Tests to Provided Datatype}
+The implemented unit tests where applied to the provided datatype
+\texttt{queue} (implemented with a 2-cell list). Here, the unit tests 
+all passed.
+
+\subsection{Provoking Unit Test Fails}
+Several modifications on the given datatype were tested to provoke
+unit test fails. Modifications were always tested on the whole chain
+of unit tests. Each modifcation stated below was tested separate. 
+
+\begin{enumerate}
+\item Test 1, \texttt{isEmpty)} was modified to always 
+return \texttt{FALSE}.
+\item Test 2, \texttt{isEmpty} was modified to always
+    return \texttt{TRUE}.
+\item Test 3, in \texttt{enqueue} the function call
+  to the list function was removed.
+\item Test 4, in \texttt{dequeue}, the function call
+  was modfied to show stack behaviour, entries were removed on the
+  previous to last list position.
+\item Test 5, in \texttt{front}, the function call
+  was removed and instead the address to a hardcoded \texttt{int} value
+  returned. This resulted in a compiler warning as a local stack
+  variable was passed on. It worked however to provoke a fail for axiom
+  5.
+\item Test 6, for both \texttt{enqueue} and \texttt{dequeue} the
+  position of action was changed: \texttt{enqueue} added at first list
+  position, while \texttt{dequeue} removed the previous to last.
+\end{enumerate} 
+
+\subsection{Memory Leaks}
+Valgrind was used to detect and mend memory leaks, both in `pass' and
+`fail' cases. This was to test the actual unit tests. However, if
+there are errors in the memory handler of the datatype, the unit tests
+will not detect it. But also here, valgrind will server as tool.
+
+\addcontentsline{toc}{section}{\refname}
+\bibliography{references}
+
+\end{document}
