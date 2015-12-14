@@ -5,6 +5,7 @@
 \usepackage{verbatim}   % Multi-line comments using \begin{comment}
 \usepackage{courier}    % Nicer fonts are used. (not necessary)
 \usepackage{pslatex}    % Also nicer fonts. (not necessary)
+\usepackage[pdftex]{graphicx}   % allows including pdf figures
 %\usepackage{lmodern}   % Optional fonts. (not necessary)
 %\usepackage{tabularx}
 %\usepackage{microtype} % Provides some typographic improvements over default settings
@@ -91,7 +92,70 @@ The benchmarks included five different cases:
 Present the results of the testing (1-2 pages, graphs/tables not
 included). Include the testparameters with the presentation of the
 results.
+\begin{figure}[H] 
+\centering 
+\includegraphics[width=\textwidth]{figures/fig1.eps}
+\caption{\textit{Figure 1a, shows the element \textbf{`insertion'}
+    times. Figure 1b shows the RSDs from the measurments in figure 1a. n=10.}}
+\end{figure}
 
+\begin{figure}[H] 
+\centering 
+\includegraphics[width=\textwidth]{figures/fig2.eps}
+\caption{\textit{Figure 2a, shows the times for the \textbf{`Random Existing
+    Lookup'} benchmark. Figure 2b shows the RSD's from the measurments
+in figure 2a. n=10.}}
+\end{figure}
+
+\begin{figure}[H] 
+\centering 
+\includegraphics[width=\textwidth]{figures/fig3.eps}
+\caption{\textit{Figure 3a, shows the times for the \textbf{`Random
+      Non-Existing Lookup'} benchmark. Figure 3b shows the RSD's from
+    the measurments in figure 3a. n=10.}}
+\end{figure}
+
+\begin{figure}[H] 
+\centering 
+\includegraphics[width=\textwidth]{figures/fig4.eps}
+\caption{\textit{Figure 4a, shows the times for the \textbf{`Skewed
+      Lookup'} benchmark. Figure 4b shows the RSD's from the
+    measurments in figure 4a. n=10.}}
+\end{figure}
+
+\begin{figure}[H] 
+\centering 
+\includegraphics[width=\textwidth]{figures/fig5.eps}
+\caption{\textit{Figure 5a, shows the times for the \textbf{`Removal'}
+    benchmark. Figure 5b shows the RSD's from the measurments in figure 5a. n=10.}}
+\end{figure}
+
+\begin{figure}[H] 
+\centering 
+\includegraphics[width=\textwidth]{figures/fig6.eps}
+\caption{\textit{Figure 6a, shows the times for the \textbf{`Random Existing
+    Lookup'}, \textbf{`Random Non-Exisiting Lookup'} and
+  \textbf{`Skewed Lookup'} benchmark of the datatype \textbf{`dlist'}. Figure 6b shows the RSD's from the measurments
+in figure 6a. n=10.}}
+\end{figure}
+
+\begin{figure}[H] 
+\centering 
+\includegraphics[width=\textwidth]{figures/fig7.eps}
+\caption{\textit{Figure 7a, shows the times for the \textbf{`Random Existing
+    Lookup'}, \textbf{`Random Non-Exisiting Lookup'} and
+  \textbf{`Skewed Lookup'} benchmark of the datatype \textbf{`mtf'}. Figure 7b shows the RSD's from the measurments
+in figure 7a. n=10.}}
+\end{figure}
+
+\begin{figure}[H] 
+\centering 
+\includegraphics[width=\textwidth]{figures/fig8.eps}
+\caption{\textit{Figure 8a, shows the times for the \textbf{`Random Existing
+    Lookup'}, \textbf{`Random Non-Exisiting Lookup'} and
+  \textbf{`Skewed Lookup'} benchmark of the datatype \textbf{`array'}. Figure 8b shows the RSD's from the measurments
+in figure 8a. n=10.}}
+\end{figure}
 
 
 \section{Discussion}
