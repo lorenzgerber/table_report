@@ -79,9 +79,55 @@ and removal speed as well as skewed or biased lookup. As a starting point,
 number of mandatory questions and discussion topics were given in the
 lab instructions.  
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/dlisttable.pdf}
+\caption{\textit{Construction of the datatype dlist table and
+    move-to-front list table.}}
+\label{fig:dlisttable}
+\end{figure}
+
+
 \section{Material and Methods} 
-For the sake of comparison follows a description not just of the move-to-front
-and array table implementation but also of the given directed list. 
+\subsection{Directed List Table and Move-to-Front List Table}
+The structure of directed list table and move to front list table is
+the same and can be seen in \textit{figure \ref{fig:dlisttable}}. The given
+dlist was constructed with a `HEAD', using physical and logical
+position where the physical is always one element before the logical. 
+That means, when the requesting the content of the first
+list element, the pointer is directed to `HEAD'. Then `head->next'
+will be used to access the content of the first cell. This setup is
+needed in a single directional list mostly for the `insert' operation:
+The new element is inserted before the current element. If physical
+and logical position would be the same, it would be needed to travers
+the list again up to the position where the new element shall be inserted
+and array table implementation but also of the given directed list.
+
+The special feature about the move-to-front list table is the lookup
+operation: each time, an element is looked up, it is moved to the
+front of the directed list. A schematic of this operation can be seen
+in \textit{figure \ref{fig:movetofront}}. The arrows in black show the
+initial situation and the red arrows new situation after moving the
+looked up cell to the front. In \textit{figure \ref{fig:movetofront}},
+the cell to be moved to the front is the one in the middle. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/movetofront.pdf}
+\caption{\textit{move to front operation in a directed list.}}
+\label{fig:movetofront}
+\end{figure}
+
+
+
+\subsection{Array Table}
+The structure of the array table can be seen in \textit{figure \ref{fig:arraytable}}. 
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.5\textwidth]{figures/arraytable.pdf}
+\caption{\textit{Construction of the array table data type.}}
+\label{fig:arraytable}
+\end{figure}
 
 Describe the construction of the datatypes. 1/2 to 2 pages. This
 should further include:
