@@ -49,13 +49,43 @@
 \newpage
 
 \section{Introduction} 
-Introduction 1/4 to 1 page. Describe with own words the aim and what
-was done. Include also a description of the abstract data type
-`table', and or reference \cite[po. 117 -- 132]{janlert2000}.
+The aim with this laboration was to understand and a set of given 
+composite data types and then built on those implement two new ones.
+Test code for correctness and speed was given. The given datatypes
+were directed `list', `array', and a `table', implemented using the 
+aforementioned directed list. The used programming language was `C'. 
+The datatypes to be implemented were table using a `move-to-front 
+list' and `table' using `array'.
+
+The implementation of the datatype `table' is according to the 
+defintion in the coursebook \cite[po. 117 -- 132]{janlert2000}. In Brief:
+a `table' is a finite mapping of arguments to values. The textbook states 
+a dictionary as a model where the lookup words are the arguments and the
+textual explanations the values. The datatype `table' however, does not 
+need to be ordered by definition.
+
+The operations found in the interface of a table are `empty', to create
+an new empty `table', `insert' to put new argument, value pairs into an 
+exisiting `table', `isEmpty' to check whether an existing `table' has any
+content, `lookup' to access the value associated to a potentially available
+argument in an existing table and `remove' to discard a potentially
+existing argument/value pair from a existing table.  
+
+The assigment included also testing and benchmarking of both the given and
+the requested table implementations. The benchmarking was ment to
+allow discussing the different implementations from a number of different
+aspects such as lookup speed of existing and non-existing arguments, insertion
+and removal speed as well as skewed or biased lookup. As a starting point,
+number of mandatory questions and discussion topics were given in the
+lab instructions.  
 
 \section{Material and Methods} 
+For the sake of comparison follows a description not just of the move-to-front
+and array table implementation but also of the given directed list. 
+
 Describe the construction of the datatypes. 1/2 to 2 pages. This
 should further include:
+
 \begin{itemize}
 \item how the implementations handle the case taking away non existing
   key
