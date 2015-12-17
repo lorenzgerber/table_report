@@ -387,13 +387,53 @@ the three test cases.
 
 
 \section{Discussion}
+The ranking for the different datatypes in benchmarking is rather
+clear. Clearly the slowest implementation in every aspect is the
+`array' while `dlist' and `mtf' are about equal expect for the
+`Skewed Lookup' test where the `mtf' implementation is the clear
+leader. The whole `Move-to-Front' strategy is tailored to this
+situation. There are most likely a large number of real world
+applications where the distribution of lookup keys is not randomly
+distributed but rather skewed. A typical application could be webshops
+where performance improvement can be obtained by `mtf' as there should
+be usually a number of `favourite' products accessed by customers.
 
-Analysis of the results (1-3 pages). Flowing text. Shall answer at
-least the following questions:
-Which datatype was fastest, which (dis)advantages do the different
-tabeltypes have? Reason for one advantage why the other implementation
-don't offer it. Reasoning about dynamic/static implementation. If
-done, reason why the direct indexing table is so fast.
+For operations where either in every case or for the worst case a full
+traversal of the data structure is needed, it is obvious that the
+`array' implementation is slowest. However it is not obvious with this
+reasoning why the `array' implementation is slower for `insertion' and
+removals. It can be noted from the scales in \textit{figure
+  \ref{fig:insertion}} and \textit{\ref{fig:remove}} that insertion is
+still quite a bit faster than removal. While the reason in removal
+should be the time needed for a full traversal, it should be a
+different during insertion. A hypothesis is that allocating a large
+amount of memory at once, as it is the case for the `array',  takes 
+a longer time than allocating several times very small parts. 
+
+An obvious disadvantage of the `array' implementation is also the
+static character it forces onto the `table', whic by defintion is a 
+dynamic datatype. A small advantage of the `array' implementation could be the
+very stable and well defined RSD's. They suggest that worst and best
+case are very similar for this implementation and as such the response
+times very predictable. However, whether the difference to the two
+other implementations is really significant would have to be tested
+statistically. One thing to note regarding the RSD's is the peculiar
+pattern found for the `dlist' datatype on a series of different
+\textit{n} values. A simple statement describing this obsreved pattern
+could be: The RSD for replicates at 5000 operations is higher than the
+RSD at 2500 operations. At the moment, I don't have a reasonable
+explication for this, but the phenomena seems to be very replicable as
+it occoured in all three benchmarks shown in
+\textit{\ref{fig:dlist}(b)}.
+
+While most of the presented results suggest that implementing a
+`table' by an `array' is a bad choice, there are some
+exceptions: A table implementation where keys are exclusively 
+natural numbers/integers that don't spread over a large value range, 
+an `array' should yield a very fast datatype. This come from the fact
+that for the expensive operations, `lookup', `insert' and `remove' no
+traversal is needed. It will be quick direct acces. Also no expensive
+handling of duplicate values is needed anymore.  
 
 \addcontentsline{toc}{section}{\refname}
 \bibliography{references}
