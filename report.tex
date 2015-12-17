@@ -6,6 +6,7 @@
 \usepackage{courier}    % Nicer fonts are used. (not necessary)
 \usepackage{pslatex}    % Also nicer fonts. (not necessary)
 \usepackage[pdftex]{graphicx}   % allows including pdf figures
+\usepackage{listings}
 %\usepackage{lmodern}   % Optional fonts. (not necessary)
 %\usepackage{tabularx}
 %\usepackage{microtype} % Provides some typographic improvements over default settings
@@ -39,10 +40,10 @@
 % =======
 %\newcommand{\mycommand}{<latex code>}
 
-
 % DOCUMENT
 % ========
 \begin{document}
+\lstset{language=C}
 \maketitle
 
 \tableofcontents
@@ -65,18 +66,18 @@ textual explanations the values. The datatype `table' however, does not
 need to be ordered by definition.
 
 The operations found in the interface of a table are `empty', to create
-an new empty `table', `insert' to put new argument, value pairs into an 
+an new empty `table', `insert' to put new argument/value pair into an 
 exisiting `table', `isEmpty' to check whether an existing `table' has any
 content, `lookup' to access the value associated to a potentially available
 argument in an existing table and `remove' to discard a potentially
-existing argument/value pair from a existing table.  
+existing argument/value pair from an existing table.  
 
 The assigment included also testing and benchmarking of both the given and
 the requested table implementations. The benchmarking was ment to
 allow discussing the different implementations from a number of different
 aspects such as lookup speed of existing and non-existing arguments, insertion
 and removal speed as well as skewed or biased lookup. As a starting point,
-number of mandatory questions and discussion topics were given in the
+a number of mandatory questions and discussion topics were given in the
 lab instructions.  
 
 \begin{figure}[H]
@@ -92,21 +93,21 @@ lab instructions.
 The description of the datatype `table' in the introduction applies to
 the actual implementations which will be described below. A small
 difference is that the coursebook \cite{janlert2000}, uses the wording
-`argument' and `value' while the obtained implementation of a directed
+`argument' while the obtained implementation of a directed
 list table uses the term `key' in the code.  
+
 \subsection{Directed List Table and Move-to-Front List Table}
-The structure of directed list table and move to front list table is
+The structure of a `directed list table' and `move to front list table' is
 the same and can be seen in \textit{figure \ref{fig:dlisttable}}. The given
-dlist was constructed with a `HEAD', using physical and logical
-position where the physical is always one element before the logical. 
-That means, when the requesting the content of the first
-list element, the pointer is directed to `HEAD'. Then `head->next'
+`dlist' was constructed with a `HEAD', using physical and logical
+position. The physical position is always one element before the logical. 
+That means, when requesting content of the first list element, 
+the pointer is directed to `HEAD'. Then `head->next'
 will be used to access the content of the first cell. This setup is
 needed in a single directional list mostly for the `insert' operation:
 The new element is inserted before the current element. If physical
 and logical position would be the same, it would be needed to travers
-the list again up to the position where the new element shall be inserted
-and array table implementation but also of the given directed list.
+the list again up to the position where the new element shall be inserted.
 
 The special feature about the move-to-front list table is the lookup
 operation: each time, an element is looked up, it is moved to the
@@ -116,8 +117,8 @@ initial situation and the red arrows new situation after moving the
 looked up cell to the front. In \textit{figure \ref{fig:movetofront}},
 the cell to be moved to the front is the one in the middle.
 
-The request to remove a non-exisiting key results in both the given
-directed list table and the move to front list table in a traversal 
+The request to remove a non-exisiting key result for both the given
+`directed list table' and the `move to front list table' in a traversal 
 of the whole list, altough without any feedback. In case of duplicate
 key values on an insertion, the old key/value pair is overwritten. In
 more abstract terms, duplicates are handled at insertion time. 
@@ -129,21 +130,19 @@ more abstract terms, duplicates are handled at insertion time.
 \label{fig:movetofront}
 \end{figure}
 
-
-
 \subsection{Array Table}
-The structure of the array table can be seen in \textit{figure
-  \ref{fig:arraytable}}. Instead of the directed list it is now
-an array of void pointers. The table is initialized to NULL
-pointers. On insertions, the void pointers of the array field is then
-set to point to the new table element. The current implementation
-traverses the array from low to high until an array field with NULL
-pointer or the same key as the one to insert is found. On removal
-of a key/value pair, the whole array is traversed to discard eventual
-duplicate key entries. In more abstract terms, duplicates are handled
+The structure of the `array table' can be seen in \textit{figure
+  \ref{fig:arraytable}}. Instead of the `directed list' it is now
+an `array' of `void pointers'. The table is initialized to `NULL
+pointers'. On insertions, a `void pointer' of the array field is then
+set to point of the new table element. The current implementation
+traverses the array from low to high until an array field with a `NULL
+pointer' or the same `key' as the one to insert is found. On removal
+of a key/value pair, the whole `array' is traversed to discard eventual
+duplicate `key' entries. In more abstract terms, duplicates are handled
 partly at insertion time and partly but definite at removal time. 
-If a non-existing key is given as argument to
-the remove operation, the whole array will be traversed. In the
+If a non-existing `key' is given as argument to
+the remove operation, the whole `array' will be traversed. In the
 current implementation no feedback is given whether a key was found
 and removed or not.   
 
@@ -165,17 +164,17 @@ array index is therefore in the most general case not possible.
 \subsection{Proposed changes to the interface}
 Currently, the interface specification does not implement any 
 return value for the operations `remove',`insert' and `free'. For
-those three, a boolean feedback whether the operation succeeded would
-certainly make sense. This would for example provide the information
-whether a key requested for removal was available in the table or
+those three, a boolean feedback whether the operation succeeded or not
+could make sense. This would for example provide the information
+whether a `key' requested for removal was available in the table or
 not. For the `insert' operation, it could provide a signal in the
-table array implementation when the underlying array is full with
+`table array' implementation when the underlying array is full with
 values. 
 
 
 \section{Results}
 \subsection{Correctness of datatype implementations}
-Two assess the correctness of the implemented datatypes a set of eight
+To assess the correctness of the implemented datatypes a set of eight
 tests was provided:
 
 Correctness of the data types was assessed by eight
@@ -191,14 +190,14 @@ table
 \item remove elements with the same key
 \end{itemize}
 
-The tests follow to a large extent the axiomatic table defintion given
+The tests followed to a large extent the axiomatic table defintion given
 in the course book \cite[p 122]{janlert2000}. All the implemented
 tables fulfilled the test criteria.
 
 \subsection{Performance tests}
-The performance of the implemnted datatypes was asses by five
+The performance of the implemnted datatypes was assed by five
 different tests that represent typical operations and use cases for
-the datatype table. 
+the datatype `table'. 
 
 \begin{itemize}
 \item Insertion speed
@@ -219,30 +218,90 @@ arithmetic means of ten runs for each \textit{n} operations case.
 The (b) plots show the relative standard deviation (RSD) for the 10
 replicate runs in each \textit{n} operations point.  
 
+To simplify the whole procedure, an additional block of code was added
+to each test function which caused to append the test results to a text
+file with the name `benchmark.txt' (listing \ref{code:benchmark}).
 
+\begin{lstlisting}[label=code:benchmark,caption=code block for writing
+  benchmark data to file]
+FILE *f = fopen(``benchmark.txt'', ``a'');
+fprintf(f, ``%lu",end-start);
+fprintf(f,"\t");
+fclose(f);
+\end{lstlisting}
+
+The text files where then imported into the statistical programming language `R'
+\cite{rlanguage}. Data aggregation, statistics and plotting was done
+in the aforementioned language according to a separate protocol
+(attachement).
+
+The five first result figures (\textit{Figures \ref{fig:insertion} to
+\ref{fig:remove}}) present data on a per test basis. The
+\textit{(a)} plots show the average benchmark time for 7 datapoints 
+(\textit{n = 250, 500, 1000, 2500, 5000, 7500, 10'000}). Each plot
+contains three data series for the benchmarked datatypes.
+
+The \textit{(b)} plots present the relative standard deviation (RSD)
+of the experiments shown in \textit{(a)}. 
+
+\textit{Figure \ref{fig:dlist} to \ref{fig:array}} show average test time and
+RSD per data type for 3 selected benchmarks (`Random Existing Lookup',
+`Random Non-Existing Lookup' and `Skewed Lookup'). Those three figures
+show now new data but allow more convenient intpretations compared to
+the per test figures.
 
 \begin{figure}[H] 
 \centering 
 \includegraphics[width=\textwidth]{figures/fig1.eps}
 \caption{\textit{Figure 1a, shows the element \textbf{`insertion'}
     times. Figure 1b shows the RSDs from the measurments in figure 1a. n=10.}}
+\label{fig:insertion}
 \end{figure}
+
+\textit{Figure \ref{fig:insertion}} shows the results for the
+`insertion' benchmark. The speed for `dlist' and `mtf' datatype were
+about the same while the `array' implementation was much slower. It
+should be noted that for all conducted tests on the `array'
+implementation, the size of the `array' was always adapted to the
+needed size. RSD's for the `array' implementation were lower than for
+the other two data types altough with a similar behaviour: High RSD's 
+for small \textit{n's} and lower for high \textit{n's}. The curves
+decreases quick at low towards higher \textit{n's} and becomes very
+flat and stable after about 5000 \textit{n}.
 
 \begin{figure}[H] 
 \centering 
 \includegraphics[width=\textwidth]{figures/fig2.eps}
 \caption{\textit{Figure 2a, shows the times for the \textbf{`Random Existing
-    Lookup'} benchmark. Figure 2b shows the RSD's from the measurments
+    Key Lookup'} benchmark. Figure 2b shows the RSD's from the measurments
 in figure 2a. n=10.}}
+\label{fig:randexlook}
 \end{figure}
+
+\textit{Figure \ref{fig:randexlook}} shows the results for the `Random
+Existing Key Lookup' test. `dlist' and `mtf' datatypes show smimilar
+mean times while `array' is again the slowest. The RSD's are very
+similar for all benchmarked datatypes.
 
 \begin{figure}[H] 
 \centering 
 \includegraphics[width=\textwidth]{figures/fig3.eps}
 \caption{\textit{Figure 3a, shows the times for the \textbf{`Random
-      Non-Existing Lookup'} benchmark. Figure 3b shows the RSD's from
+      Non-Existing Key Lookup'} benchmark. Figure 3b shows the RSD's from
     the measurments in figure 3a. n=10.}}
+\label{fig:randnonexlook}
 \end{figure}
+
+\textit{Figure \ref{fig:randnonexlook}} shows the results for the
+`Random Non-Existing Key Lookup' benchmark. The times are about double
+compared to the `Random Existing Key Lookup' test with the same
+ranking where `dlist' and `mtf' are about the same and the `array'
+implementation is the slowest. The RSD's for `mtf' and `array'
+datatype look similar as in the `Random Existing Key Lookup' however
+the `dlist' resulted in a peculiar irregular curve shape for the
+series of increasing \textit{n}. On closer inspection, a similar curve
+shape, although less pronounced can be found for all RSD value series
+of the `dlist' datatype.
 
 \begin{figure}[H] 
 \centering 
@@ -250,14 +309,30 @@ in figure 2a. n=10.}}
 \caption{\textit{Figure 4a, shows the times for the \textbf{`Skewed
       Lookup'} benchmark. Figure 4b shows the RSD's from the
     measurments in figure 4a. n=10.}}
+\label{fig:skewed}
 \end{figure}
+
+\textit{Figure \ref{fig:skewed}} shows the results for the 'Skewed
+Lookup' benchmark where the some values are looked up with a higher
+frequency than random. Here the `mtf' implementation is by far the
+fastest followed by the `dlist' and slowest again the `arrray'
+implementation. The RSD's are similar as for the two affore mentioned
+benchmarks.
+
 
 \begin{figure}[H] 
 \centering 
 \includegraphics[width=\textwidth]{figures/fig5.eps}
 \caption{\textit{Figure 5a, shows the times for the \textbf{`Removal'}
     benchmark. Figure 5b shows the RSD's from the measurments in figure 5a. n=10.}}
+\label{fig:remove}
 \end{figure}
+
+\textit{Figure \ref{fig:remove}} shows the results for the `Removal'
+benchmark. The plot look similar like the `Random Non-Existing Key
+Lookup' however the times are a bit faster for all datatypes. The
+RSD's are in the same range as for the other benchmarks (excpet the
+insertion). 
 
 \begin{figure}[H] 
 \centering 
@@ -266,7 +341,14 @@ in figure 2a. n=10.}}
     Lookup'}, \textbf{`Random Non-Exisiting Lookup'} and
   \textbf{`Skewed Lookup'} benchmark of the datatype \textbf{`dlist'}. Figure 6b shows the RSD's from the measurments
 in figure 6a. n=10.}}
+\label{fig:dlist}
 \end{figure}
+
+\textit{Figure \ref{fig:dlist}} shows the results for the benchmarks
+`Random Existing Key Lookup', `Random Non-Existing Key Lookup' and
+`Skewed Lookup' for the datatype `dlist'. `Random Existing Key Lookup' and
+`Skewed lookup' are exactly equal fast while `Random Non-Existing Key
+Lookup' is a bit slower. Note the peculiar shape of the RSD data curves.
 
 \begin{figure}[H] 
 \centering 
@@ -275,7 +357,16 @@ in figure 6a. n=10.}}
     Lookup'}, \textbf{`Random Non-Exisiting Lookup'} and
   \textbf{`Skewed Lookup'} benchmark of the datatype \textbf{`mtf'}. Figure 7b shows the RSD's from the measurments
 in figure 7a. n=10.}}
+\label{fig:mtf}
 \end{figure}
+
+\textit{Figure \ref{fig:mtf}} shows the results for the benchmarks
+`Random Existing Key Lookup', `Random Non-Existing Key Lookup' and
+`Skewed Lookup' for the datatype `mtf'. `Skewed lookup' here is by 
+far the fastest followed by `Random Existing Key Lookup' and 
+`Random Non-Existing Key Lookup'. RSD's are similar for the three
+cases with the common pattern, high and quick decreasing for very low
+\textit{n} while low and almost flat for higher \textit{n} values.
 
 \begin{figure}[H] 
 \centering 
@@ -284,10 +375,19 @@ in figure 7a. n=10.}}
     Lookup'}, \textbf{`Random Non-Exisiting Lookup'} and
   \textbf{`Skewed Lookup'} benchmark of the datatype \textbf{`array'}. Figure 8b shows the RSD's from the measurments
 in figure 8a. n=10.}}
+\label{fig:array}
 \end{figure}
+
+\textit{Figure \ref{fig:array}} shows the results for the benchmarks
+`Random Existing Key Lookup', `Random Non-Existing Key Lookup' and
+`Skewed Lookup' for the datatype `array'. `Random Existing Key Lookup' and
+`Skewed lookup' are exactly equal fast while `Random Non-Existing Key
+Lookup' is a bit slower. The RSD's are very regular and stable among
+the three test cases.
 
 
 \section{Discussion}
+
 Analysis of the results (1-3 pages). Flowing text. Shall answer at
 least the following questions:
 Which datatype was fastest, which (dis)advantages do the different
