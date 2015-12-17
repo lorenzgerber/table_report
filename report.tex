@@ -58,7 +58,7 @@ The datatypes to be implemented were table using a `move-to-front
 list' and `table' using `array'.
 
 The implementation of the datatype `table' is according to the 
-defintion in the coursebook \cite[po. 117 -- 132]{janlert2000}. In Brief:
+defintion in the coursebook \cite[pp. 117 -- 132]{janlert2000}. In Brief:
 a `table' is a finite mapping of arguments to values. The textbook states 
 a dictionary as a model where the lookup words are the arguments and the
 textual explanations the values. The datatype `table' however, does not 
@@ -88,7 +88,12 @@ lab instructions.
 \end{figure}
 
 
-\section{Material and Methods} 
+\section{Material and Methods}
+The description of the datatype `table' in the introduction applies to
+the actual implementations which will be described below. A small
+difference is that the coursebook \cite{janlert2000}, uses the wording
+`argument' and `value' while the obtained implementation of a directed
+list table uses the term `key' in the code.  
 \subsection{Directed List Table and Move-to-Front List Table}
 The structure of directed list table and move to front list table is
 the same and can be seen in \textit{figure \ref{fig:dlisttable}}. The given
@@ -109,7 +114,13 @@ front of the directed list. A schematic of this operation can be seen
 in \textit{figure \ref{fig:movetofront}}. The arrows in black show the
 initial situation and the red arrows new situation after moving the
 looked up cell to the front. In \textit{figure \ref{fig:movetofront}},
-the cell to be moved to the front is the one in the middle. 
+the cell to be moved to the front is the one in the middle.
+
+The request to remove a non-exisiting key results in both the given
+directed list table and the move to front list table in a traversal 
+of the whole list, altough without any feedback. In case of duplicate
+key values on an insertion, the old key/value pair is overwritten. In
+more abstract terms, duplicates are handled at insertion time. 
 
 \begin{figure}[H]
 \centering
@@ -121,7 +132,29 @@ the cell to be moved to the front is the one in the middle.
 
 
 \subsection{Array Table}
-The structure of the array table can be seen in \textit{figure \ref{fig:arraytable}}. 
+The structure of the array table can be seen in \textit{figure
+  \ref{fig:arraytable}}. Instead of the directed list it is now
+an array of void pointers. The table is initialized to NULL
+pointers. On insertions, the void pointers of the array field is then
+set to point to the new table element. The current implementation
+traverses the array from low to high until an array field with NULL
+pointer or the same key as the one to insert is found. On removal
+of a key/value pair, the whole array is traversed to discard eventual
+duplicate key entries. In more abstract terms, duplicates are handled
+partly at insertion time and partly but definite at removal time. 
+If a non-existing key is given as argument to
+the remove operation, the whole array will be traversed. In the
+current implementation no feedback is given whether a key was found
+and removed or not.   
+
+An important feature to mention is that by definition an array is a 
+static datatype while a table is dynamic. This will be discussed in 
+more detail. Also by definition, they index of an array is usually a 
+natural number or integer which does not match with the definition of 
+the argument/key in a table. A direct mapping from argument/key to 
+array index is therefore in the most general case not possible. 
+
+
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.5\textwidth]{figures/arraytable.pdf}
@@ -129,23 +162,23 @@ The structure of the array table can be seen in \textit{figure \ref{fig:arraytab
 \label{fig:arraytable}
 \end{figure}
 
-Describe the construction of the datatypes. 1/2 to 2 pages. This
-should further include:
+\subsection{Proposed changes to the interface}
+Currently, the interface specification does not implement any 
+return value for the operations `remove',`insert' and `free'. For
+those three, a boolean feedback whether the operation succeeded would
+certainly make sense. This would for example provide the information
+whether a key requested for removal was available in the table or
+not. For the `insert' operation, it could provide a signal in the
+table array implementation when the underlying array is full with
+values. 
 
-\begin{itemize}
-\item how the implementations handle the case taking away non existing
-  key
-\item how the implementations handle double keys
-\item proposing changes in the interface
-\item why can we not use key as index in ArrayTable
-\end{itemize}
 
-Two test sets were provided, one to asses correctness of
-implementation, the other to benchmark the speed for some typical
-operations. 
+\section{Results}
+\subsection{Correctness of datatype implementations}
+Two assess the correctness of the implemented datatypes a set of eight
+tests was provided:
 
 Correctness of the data types was assessed by eight
-differnt tests: 
 \begin{itemize}
 \item `isEmtpy' on a new created table yields TRUE
 \item insert a single element
@@ -153,21 +186,41 @@ differnt tests:
 \item insert and lookup multiple elements with non identical keys
 table
 \item insert and lookup multiple elements with identical keys
+\item remove a single element
+\item remove elements with different keys
+\item remove elements with the same key
 \end{itemize}
 
-The benchmarks included five different cases: 
+The tests follow to a large extent the axiomatic table defintion given
+in the course book \cite[p 122]{janlert2000}. All the implemented
+tables fulfilled the test criteria.
+
+\subsection{Performance tests}
+The performance of the implemnted datatypes was asses by five
+different tests that represent typical operations and use cases for
+the datatype table. 
+
 \begin{itemize}
-\item Insert speed
+\item Insertion speed
 \item random existing lookup speed
 \item random non-existing lookup speed 
 \item skewed lookup speed
 \item remove speed  
 \end{itemize}
 
-\section{Results}
-Present the results of the testing (1-2 pages, graphs/tables not
-included). Include the testparameters with the presentation of the
-results.
+All above mentioned tests took as parameter the number \textit {n} 
+of operations to be run for each separate test. This allows to assess the
+time-complexity when performing the test for a series of increasing
+\textit{n}. The test data generation procedure was also provided and
+was based on the C `rand' function. To account for worst/best case
+scenarios stemming from the random numbers, each test was run 10
+times. Results below are presented as scatter plots (a) with
+arithmetic means of ten runs for each \textit{n} operations case. 
+The (b) plots show the relative standard deviation (RSD) for the 10
+replicate runs in each \textit{n} operations point.  
+
+
+
 \begin{figure}[H] 
 \centering 
 \includegraphics[width=\textwidth]{figures/fig1.eps}
