@@ -16,14 +16,15 @@
 
 % DOCUMENT INFO
 % =============
-\department{Institution för Datavetenskap}
-\coursename{Datavetenskapens byggstenar 7.5 p}
+\department{Institution för Datavetenskap \\
+Rapport obligatorisk uppgift}
+\coursename{DV1: Datavetenskapens byggstenar 7.5 p}
 \coursecode{DV160HT15}
 \title{OU3 Tables}
 \author{Lorenz Gerber  ({\tt{dv15lgr@cs.umu.se}})}
 \date{2015-12-17}
 %\revisiondate{2015-09-15}
-\instructor{Lena Kallin Westin / Johan Eliasson}
+\instructor{Lena Kallin Westin, Johan Eliasson, Emil Marklund, Lina Ögren}
 
 
 % DOCUMENT SETTINGS
@@ -53,23 +54,23 @@
 The aim with this laboration was to understand and a set of given 
 composite data types and then built on those implement two new ones.
 Test code for correctness and speed was given. The given datatypes
-were directed `list', `array', and a `table', implemented using the 
-aforementioned directed list. The used programming language was `C'. 
-The datatypes to be implemented were table using a `move-to-front 
-list' and `table' using `array'.
+were directed \emph{list}, \emph{array}, and a \emph{table}, implemented using the 
+aforementioned directed list. The used programming language was \emph{C}. 
+The datatypes to be implemented were table using a \emph{move-to-front 
+list} and \emph{table} using \emph{array}.
 
-The implementation of the datatype `table' is according to the 
+The implementation of the datatype \emph{table} is according to the 
 defintion in the coursebook \cite[pp. 117 -- 132]{janlert2000}. In Brief:
-a `table' is a finite mapping of arguments to values. The textbook states 
+a \emph{table} is a finite mapping of arguments to values. The textbook states 
 a dictionary as a model where the lookup words are the arguments and the
-textual explanations the values. The datatype `table' however, does not 
+textual explanations the values. The datatype \emph{table} however, does not 
 need to be ordered by definition.
 
-The operations found in the interface of a table are `empty', to create
-an new empty `table', `insert' to put new argument/value pair into an 
-exisiting `table', `isEmpty' to check whether an existing `table' has any
-content, `lookup' to access the value associated to a potentially available
-argument in an existing table and `remove' to discard a potentially
+The operations found in the interface of a table are \emph{empty}, to create
+an new empty \emph{table}, \emph{insert} to put new argument/value pair into an 
+exisiting \emph{table}, \emph{isEmpty} to check whether an existing \emph{table} has any
+content, \emph{lookup} to access the value associated to a potentially available
+argument in an existing table and \emph{remove} to discard a potentially
 existing argument/value pair from an existing table.  
 
 The assigment included also testing and benchmarking of both the given and
@@ -90,21 +91,21 @@ lab instructions.
 
 
 \section{Material and Methods}
-The description of the datatype `table' in the introduction applies to
+The description of the datatype \emph{table} in the introduction applies to
 the actual implementations which will be described below. A small
 difference is that the coursebook \cite{janlert2000}, uses the wording
-`argument' while the obtained implementation of a directed
-list table uses the term `key' in the code.  
+\emph{argument} while the obtained implementation of a directed
+list table uses the term \emph{key} in the code.  
 
 \subsection{Directed List Table and Move-to-Front List Table}
-The structure of a `directed list table' and `move to front list table' is
+The structure of a \emph{directed list table} and \emph{move to front list table} is
 the same and can be seen in \textit{figure \ref{fig:dlisttable}}. The given
-`dlist' was constructed with a `HEAD', using physical and logical
+\emph{dlist} was constructed with a \emph{HEAD}, using physical and logical
 position. The physical position is always one element before the logical. 
 That means, when requesting content of the first list element, 
-the pointer is directed to `HEAD'. Then `head->next'
+the pointer is directed to \emph{HEAD}. Then \emph{head->next}
 will be used to access the content of the first cell. This setup is
-needed in a single directional list mostly for the `insert' operation:
+needed in a single directional list mostly for the \emph{insert} operation:
 The new element is inserted before the current element. If physical
 and logical position would be the same, it would be needed to travers
 the list again up to the position where the new element shall be inserted.
@@ -118,7 +119,7 @@ looked up cell to the front. In \textit{figure \ref{fig:movetofront}},
 the cell to be moved to the front is the one in the middle.
 
 The request to remove a non-exisiting key result for both the given
-`directed list table' and the `move to front list table' in a traversal 
+\emph{directed list table} and the {move to front list table} in a traversal 
 of the whole list, altough without any feedback. In case of duplicate
 key values on an insertion, the old key/value pair is overwritten. In
 more abstract terms, duplicates are handled at insertion time. 
@@ -131,18 +132,18 @@ more abstract terms, duplicates are handled at insertion time.
 \end{figure}
 
 \subsection{Array Table}
-The structure of the `array table' can be seen in \textit{figure
-  \ref{fig:arraytable}}. Instead of the `directed list' it is now
-an `array' of `void pointers'. The table is initialized to `NULL
-pointers'. On insertions, a `void pointer' of the array field is then
+The structure of the {array table} can be seen in \textit{figure
+  \ref{fig:arraytable}}. Instead of the \emph{directed list} it is now
+an \emph{array} of \emph{void pointers}. The table is initialized to \emph{NULL
+pointers}. On insertions, a \emph{void pointer} of the array field is then
 set to point of the new table element. The current implementation
-traverses the array from low to high until an array field with a `NULL
-pointer' or the same `key' as the one to insert is found. On removal
-of a key/value pair, the whole `array' is traversed to discard eventual
-duplicate `key' entries. In more abstract terms, duplicates are handled
+traverses the array from low to high until an array field with a \emph{NULL
+pointer} or the same \emph{key} as the one to insert is found. On removal
+of a key/value pair, the whole \emph{array} is traversed to discard eventual
+duplicate \emph{key} entries. In more abstract terms, duplicates are handled
 partly at insertion time and partly but definite at removal time. 
-If a non-existing `key' is given as argument to
-the remove operation, the whole `array' will be traversed. In the
+If a non-existing \emph{key} is given as argument to
+the remove operation, the whole \emph{array} will be traversed. In the
 current implementation no feedback is given whether a key was found
 and removed or not.   
 
@@ -163,12 +164,13 @@ array index is therefore in the most general case not possible.
 
 \subsection{Proposed changes to the interface}
 Currently, the interface specification does not implement any 
-return value for the operations `remove',`insert' and `free'. For
+return value for the operations \emph{remove},\emph{insert} and 
+\emph{free}. For
 those three, a boolean feedback whether the operation succeeded or not
 could make sense. This would for example provide the information
-whether a `key' requested for removal was available in the table or
-not. For the `insert' operation, it could provide a signal in the
-`table array' implementation when the underlying array is full with
+whether a \emph{key} requested for removal was available in the table or
+not. For the \emph{insert} operation, it could provide a signal in the
+\emph{table array} implementation when the underlying array is full with
 values. 
 
 
@@ -179,7 +181,7 @@ tests was provided:
 
 Correctness of the data types was assessed by eight
 \begin{itemize}
-\item `isEmtpy' on a new created table yields TRUE
+\item {isEmtpy} on a new created table yields TRUE
 \item insert a single element
 \item lookup a single element
 \item insert and lookup multiple elements with non identical keys
@@ -197,7 +199,7 @@ tables fulfilled the test criteria.
 \subsection{Performance tests}
 The performance of the implemnted datatypes was assed by five
 different tests that represent typical operations and use cases for
-the datatype `table'. 
+the datatype \emph{table}. 
 
 \begin{itemize}
 \item Insertion speed
@@ -211,7 +213,7 @@ All above mentioned tests took as parameter the number \textit {n}
 of operations to be run for each separate test. This allows to assess the
 time-complexity when performing the test for a series of increasing
 \textit{n}. The test data generation procedure was also provided and
-was based on the C `rand' function. To account for worst/best case
+was based on the C \emph{rand} function. To account for worst/best case
 scenarios stemming from the random numbers, each test was run 10
 times. Results below are presented as scatter plots (a) with
 arithmetic means of ten runs for each \textit{n} operations case. 
@@ -220,7 +222,7 @@ replicate runs in each \textit{n} operations point.
 
 To simplify the whole procedure, an additional block of code was added
 to each test function which caused to append the test results to a text
-file with the name `benchmark.txt' (listing \ref{code:benchmark}).
+file with the name \emph{benchmark.txt} (listing \ref{code:benchmark}).
 
 \begin{lstlisting}[label=code:benchmark,caption=code block for writing
   benchmark data to file]
@@ -245,8 +247,8 @@ The \textit{(b)} plots present the relative standard deviation (RSD)
 of the experiments shown in \textit{(a)}. 
 
 \textit{Figure \ref{fig:dlist} to \ref{fig:array}} show average test time and
-RSD per data type for 3 selected benchmarks (`Random Existing Lookup',
-`Random Non-Existing Lookup' and `Skewed Lookup'). Those three figures
+RSD per data type for 3 selected benchmarks (\emph{Random Existing Lookup},
+\emph{Random Non-Existing Lookup} and \emph{Skewed Lookup}). Those three figures
 show now new data but allow more convenient intpretations compared to
 the per test figures.
 
@@ -259,11 +261,11 @@ the per test figures.
 \end{figure}
 
 \textit{Figure \ref{fig:insertion}} shows the results for the
-`insertion' benchmark. The speed for `dlist' and `mtf' datatype were
-about the same while the `array' implementation was much slower. It
-should be noted that for all conducted tests on the `array'
-implementation, the size of the `array' was always adapted to the
-needed size. RSD's for the `array' implementation were lower than for
+\emph{insertion} benchmark. The speed for \emph{dlist} and \emph{mtf} datatype were
+about the same while the \emph{array} implementation was much slower. It
+should be noted that for all conducted tests on the \emph{array}
+implementation, the size of the \emph{array} was always adapted to the
+needed size. RSD's for the \emph{array} implementation were lower than for
 the other two data types altough with a similar behaviour: High RSD's 
 for small \textit{n's} and lower for high \textit{n's}. The curves
 decreases quick at low towards higher \textit{n's} and becomes very
@@ -278,9 +280,9 @@ in figure 2a. n=10.}}
 \label{fig:randexlook}
 \end{figure}
 
-\textit{Figure \ref{fig:randexlook}} shows the results for the `Random
-Existing Key Lookup' test. `dlist' and `mtf' datatypes show smimilar
-mean times while `array' is again the slowest. The RSD's are very
+\textit{Figure \ref{fig:randexlook}} shows the results for the \emph{Random
+Existing Key Lookup} test. \emph{dlist} and \emph{mtf} datatypes show smimilar
+mean times while \emph{array} is again the slowest. The RSD's are very
 similar for all benchmarked datatypes.
 
 \begin{figure}[H] 
@@ -293,15 +295,15 @@ similar for all benchmarked datatypes.
 \end{figure}
 
 \textit{Figure \ref{fig:randnonexlook}} shows the results for the
-`Random Non-Existing Key Lookup' benchmark. The times are about double
-compared to the `Random Existing Key Lookup' test with the same
-ranking where `dlist' and `mtf' are about the same and the `array'
-implementation is the slowest. The RSD's for `mtf' and `array'
-datatype look similar as in the `Random Existing Key Lookup' however
-the `dlist' resulted in a peculiar irregular curve shape for the
+\emph{Random Non-Existing Key Lookup} benchmark. The times are about double
+compared to the \emph{Random Existing Key Lookup} test with the same
+ranking where \emph{dlist} and \emph{mtf} are about the same and the \emph{array}
+implementation is the slowest. The RSD's for \emph{mtf} and \emph{array}
+datatype look similar as in the \emph{Random Existing Key Lookup} however
+the \emph{dlist} resulted in a peculiar irregular curve shape for the
 series of increasing \textit{n}. On closer inspection, a similar curve
 shape, although less pronounced can be found for all RSD value series
-of the `dlist' datatype.
+of the \emph{dlist} datatype.
 
 \begin{figure}[H] 
 \centering 
@@ -314,8 +316,8 @@ of the `dlist' datatype.
 
 \textit{Figure \ref{fig:skewed}} shows the results for the 'Skewed
 Lookup' benchmark where the some values are looked up with a higher
-frequency than random. Here the `mtf' implementation is by far the
-fastest followed by the `dlist' and slowest again the `arrray'
+frequency than random. Here the \emph{mtf} implementation is by far the
+fastest followed by the \emph{dlist} and slowest again the \emph{array}
 implementation. The RSD's are similar as for the two affore mentioned
 benchmarks.
 
@@ -328,9 +330,9 @@ benchmarks.
 \label{fig:remove}
 \end{figure}
 
-\textit{Figure \ref{fig:remove}} shows the results for the `Removal'
-benchmark. The plot look similar like the `Random Non-Existing Key
-Lookup' however the times are a bit faster for all datatypes. The
+\textit{Figure \ref{fig:remove}} shows the results for the \emph{Removal}
+benchmark. The plot look similar like the \emph{Random Non-Existing Key
+Lookup} however the times are a bit faster for all datatypes. The
 RSD's are in the same range as for the other benchmarks (excpet the
 insertion). 
 
@@ -345,10 +347,10 @@ in figure 6a. n=10.}}
 \end{figure}
 
 \textit{Figure \ref{fig:dlist}} shows the results for the benchmarks
-`Random Existing Key Lookup', `Random Non-Existing Key Lookup' and
-`Skewed Lookup' for the datatype `dlist'. `Random Existing Key Lookup' and
-`Skewed lookup' are exactly equal fast while `Random Non-Existing Key
-Lookup' is a bit slower. Note the peculiar shape of the RSD data curves.
+\emph{Random Existing Key Lookup}, \emph{Random Non-Existing Key Lookup} and
+\emph{Skewed Lookup} for the datatype \emph{dlist}. \emph{Random Existing Key Lookup} and
+\emph{Skewed lookup} are exactly equal fast while \emph{Random Non-Existing Key
+Lookup} is a bit slower. Note the peculiar shape of the RSD data curves.
 
 \begin{figure}[H] 
 \centering 
@@ -361,10 +363,10 @@ in figure 7a. n=10.}}
 \end{figure}
 
 \textit{Figure \ref{fig:mtf}} shows the results for the benchmarks
-`Random Existing Key Lookup', `Random Non-Existing Key Lookup' and
-`Skewed Lookup' for the datatype `mtf'. `Skewed lookup' here is by 
-far the fastest followed by `Random Existing Key Lookup' and 
-`Random Non-Existing Key Lookup'. RSD's are similar for the three
+\emph{Random Existing Key Lookup}, \emph{Random Non-Existing Key Lookup} and
+\emph{Skewed Lookup} for the datatype \emph{mtf}. \emph{Skewed lookup} here is by 
+far the fastest followed by \emph{Random Existing Key Lookup} and 
+\emph{Random Non-Existing Key Lookup}. RSD's are similar for the three
 cases with the common pattern, high and quick decreasing for very low
 \textit{n} while low and almost flat for higher \textit{n} values.
 
@@ -379,50 +381,50 @@ in figure 8a. n=10.}}
 \end{figure}
 
 \textit{Figure \ref{fig:array}} shows the results for the benchmarks
-`Random Existing Key Lookup', `Random Non-Existing Key Lookup' and
-`Skewed Lookup' for the datatype `array'. `Random Existing Key Lookup' and
-`Skewed lookup' are exactly equal fast while `Random Non-Existing Key
-Lookup' is a bit slower. The RSD's are very regular and stable among
+\emph{Random Existing Key Lookup}, \emph{Random Non-Existing Key Lookup} and
+\emph{Skewed Lookup} for the datatype \emph{array}. \emph{Random Existing Key Lookup} and
+\emph{Skewed lookup} are exactly equal fast while \emph{Random Non-Existing Key
+Lookup} is a bit slower. The RSD's are very regular and stable among
 the three test cases.
 
 
 \section{Discussion}
 Ranking according speed for the different datatypes was obvious. 
 The slowest implementation in every aspect by far is
-`array' while `dlist' and `mtf' are about equal, except for the
-`Skewed Lookup' test where the `mtf' implementation is fastest. 
-The `Move-to-Front' strategy seems to be tailored for this
+\emph{array} while \emph{dlist} and \emph{mtf} are about equal, except for the
+\emph{Skewed Lookup} test where the \emph{mtf} implementation is fastest. 
+The \emph{Move-to-Front} strategy seems to be tailored for this
 situation. There should be quite a lot of real world
 applications where the distribution of lookup keys is not randomly
 distributed but rather skewed. A typical application could be webshops.
-There performance improvements can be obtained by `mtf' as there will
-usually be a number of `favourite' products accessed more often by 
+There performance improvements can be obtained by \emph{mtf} as there will
+usually be a number of \emph{favourite} products accessed more often by 
 customers than other products.
 
 For operations where always or in the worst case a full
 traversal of the data whole structure is needed, it is obvious that the
-`array' implementation is slowest. However it is not obvious to me with this
-reasoning why the `array' implementation is slower for `insertion' and
-`removals'. It can be noted from the axis scale in \textit{figure
+\emph{array} implementation is slowest. However it is not obvious to me with this
+reasoning why the \emph{array} implementation is slower for \emph{insertion} and
+\emph{removals}. It can be noted from the axis scale in \textit{figure
   \ref{fig:insertion}} and \textit{\ref{fig:remove}} that insertion is
 still quite a bit faster than removal. While the time critical
 operation in removal should be the time needed for a full traversal, 
 this can not be the reason for slow performance on insertions. 
 A hypothesis is that allocating a large amount of memory at once, 
-as it is the case for `array',  takes a longer time than allocating 
+as it is the case for \emph{array},  takes a longer time than allocating 
 several times very short address ranges. 
 
-An obvious disadvantage of the `array' implementation is also the
-static character which it forces onto the `table'. A table is by 
-defintion a dynamic datatype. When implementing the `table' with an
-`array' this is then just valid for a limited operational envelope,
-the size of the array. A small advantage of the `array' implementation 
+An obvious disadvantage of the \emph{array} implementation is also the
+static character which it forces onto the \emph{table}. A table is by 
+defintion a dynamic datatype. When implementing the \emph{table} with an
+\emph{array} this is then just valid for a limited operational envelope,
+the size of the array. A small advantage of the \emph{array} implementation 
 could be the very stable and well defined RSD's. They suggest that 
 worst and best case are very similar for this implementation and as 
 such the response times very predictable. However, whether this difference to the two
 other implementations is really significant would have to be tested
 statistically. One thing to note regarding the RSD's is the peculiar
-pattern found for the `dlist' datatype on a series of different
+pattern found for the \emph{dlist} datatype on a series of different
 \textit{n} values. A simple statement describing this observed pattern
 could be: The RSD for replicates at 5000 operations is higher than the
 RSD at 2500 operations. This does not sound logica and at the moment, 
@@ -431,11 +433,11 @@ to replicable as it occoured in all three benchmarks
 \textit{(Figure \ref{fig:dlist}(b))}.
 
 While most of the presented results suggest that implementing a
-`table' by an `array' is a bad choice, there are some
+\emph{table} by an \emph{array} is a bad choice, there are some
 exceptions: For a table implementation where keys are exclusively 
 natural numbers/integers that do not spread over a large value range, 
-an `array' should yield a very fast datatype. This comes from the fact
-that for the expensive operations `lookup', `insert' and `remove' no
+an \emph{array} should yield a very fast datatype. This comes from the fact
+that for the expensive operations \emph{lookup}, \emph{insert} and \emph{remove} no
 traversal is needed. It will be quick direct acces. Also no expensive
 handling of duplicate values is needed in this case.  
 
